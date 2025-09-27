@@ -5,6 +5,7 @@ import com.imad.project.repository.IUserRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -19,13 +20,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
+@EnableMethodSecurity
 public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;
 
-    // ✅ Constructor injection instead of @Autowired
     public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter, IUserRepository userRepository, AuthenticationProvider authenticationProvider, LogoutHandler logoutHandler) {
         this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         this.authenticationProvider = authenticationProvider;
@@ -49,7 +50,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
 
                         .requestMatchers("/auth/*", "/error").permitAll()
-                        .requestMatchers("/student/*").hasRole(Role.USER.name())
+                        .requestMatchers("/admin/*").hasRole(Role.ADMIN.name())
                         .anyRequest().authenticated()
 
                 )

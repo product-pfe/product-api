@@ -2,7 +2,6 @@ package com.imad.project.model;
 
 import com.imad.project.controller.domain.Address;
 import com.imad.project.controller.domain.Gender;
-import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,13 +25,13 @@ public class User implements UserDetails {
     private LocalDate dateOfBirth;
     private Gender gender;
     private String password;
-    private UserStatus userStatus;
+    private Status status;
     private Role role;
 
     public User() {
     }
 
-    public User(UUID id, String firstName, String lastName, String email, Address address, LocalDate dateOfBirth, Gender gender, String password, UserStatus userStatus, Role role) {
+    public User(UUID id, String firstName, String lastName, String email, Address address, LocalDate dateOfBirth, Gender gender, String password, Status status, Role role) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -41,7 +40,7 @@ public class User implements UserDetails {
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.password = password;
-        this.userStatus = userStatus;
+        this.status = status;
         this.role = role;
     }
 
@@ -112,7 +111,11 @@ public class User implements UserDetails {
         return gender;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

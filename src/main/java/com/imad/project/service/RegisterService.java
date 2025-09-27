@@ -1,5 +1,6 @@
 package com.imad.project.service;
 
+import com.imad.project.config.IJwtService;
 import com.imad.project.config.JwtService;
 import com.imad.project.model.AuthenticationResponse;
 import com.imad.project.model.Token;
@@ -20,7 +21,7 @@ public class RegisterService implements IRegisterService {
 
 
     @Autowired
-    private JwtService jwtService;
+    private IJwtService jwtService;
 
     @Override
     public AuthenticationResponse saveUser(User user) {

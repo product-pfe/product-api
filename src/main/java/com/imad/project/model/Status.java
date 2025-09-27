@@ -1,7 +1,8 @@
 package com.imad.project.model;
 
-public enum UserStatus {
+public enum Status {
     PENDING,
     ACCEPTED,
-    DECLINED
+    REJECTED,
+    DELETED
 }

@@ -2,7 +2,7 @@ package com.imad.project.dto;
 
 import com.imad.project.controller.domain.Address;
 import com.imad.project.controller.domain.Gender;
-import com.imad.project.model.UserStatus;
+import com.imad.project.model.Status;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -15,6 +15,6 @@ public record UserDetailDto(
         Address address,
         LocalDate dateOfBirth,
         Gender gender,
-        UserStatus UserStatus
+        Status Status
 ) {
 }

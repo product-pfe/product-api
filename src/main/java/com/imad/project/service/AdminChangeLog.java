@@ -4,6 +4,7 @@ import com.imad.project.controller.domain.Address;
 import com.imad.project.controller.domain.Gender;
 import com.imad.project.model.Role;
 import com.imad.project.model.User;
+import com.imad.project.model.Status;
 import com.imad.project.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -26,7 +27,15 @@ public class AdminChangeLog implements CommandLineRunner {
         );
         User admin = new User(
                 UUID.randomUUID(),
-                "admin", "", "admin@gmail.com", address, LocalDate.of(1999,2,10), Gender.MALE, passwordEncoder.encode("1234"), Role.ADMIN
+                "admin",
+                "",
+                "admin@gmail.com",
+                address,
+                LocalDate.of(1999,2,10),
+                Gender.MALE,
+                passwordEncoder.encode("1234"),
+                Status.ACCEPTED,
+                Role.ADMIN
         );
         if (userRepository.findByEmail(admin.getEmail()).isEmpty()){
             userRepository.save(admin);

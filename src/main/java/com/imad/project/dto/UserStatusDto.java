@@ -4,5 +4,6 @@ public enum UserStatusDto {
 
     PENDING,
     ACCEPTED,
-    REJECTED
+    REJECTED,
+    DELETED
 }
