@@ -8,5 +8,5 @@ public interface ICurrentUserService {
 
     boolean hasRole(String role);
     boolean hasAnyRole(String... roles);
-    public boolean isAdmin();
+    boolean isAdmin();
 }

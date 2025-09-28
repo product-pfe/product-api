@@ -6,12 +6,14 @@ import com.imad.project.controller.dto.product.ProductUpdateRequestDto;
 import com.imad.project.exception.ProductException;
 import com.imad.project.mapper.UserMapper;
 import com.imad.project.model.Product;
+import com.imad.project.model.ProductStatus;
 import com.imad.project.model.Role;
 import com.imad.project.model.User;
 import com.imad.project.repository.IProductRepository;
 import com.imad.project.repository.IUserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -32,50 +34,51 @@ public class ProductService implements IProductService {
      */
     @Override
     public List<Product> listProducts(UUID requesterId, String category) {
-        User requester = userRepository.findById(requesterId)
-                .orElseThrow(() -> new ProductException(HttpStatus.UNAUTHORIZED, "User not found"));
+        boolean hasCategory = category != null && !category.isBlank();
 
-        boolean isAdmin = requester.getRole() == Role.ADMIN;
-
-        if (isAdmin) {
-            if (category == null || category.isBlank()) {
-                return new ArrayList<>(productRepository.findAll());
+        // 1) Requête anonyme / publique
+        if (requesterId == null) {
+            // OPTIONNEL : ne renvoyer que les produits ACTIVE pour les visiteurs
+            if (hasCategory) {
+                return productRepository.findAllByCategoryAndStatus(category, ProductStatus.ACTIVE);
             } else {
-                return productRepository.findAllByCategory(category);
+                return productRepository.findAllByStatus(ProductStatus.ACTIVE);
             }
         }
 
-        // Non-admin: doit être USER
-        if (requester.getRole() != Role.USER) {
-            throw new ProductException(HttpStatus.FORBIDDEN, "Forbidden: only USERS or ADMINS can list products");
+        // 2) Utilisateur authentifié — charger pour vérifier le rôle
+        User requester = userRepository.findById(requesterId)
+                .orElseThrow(() -> new ProductException(HttpStatus.UNAUTHORIZED, "User not found"));
+
+        // 3) Admin -> voit tout
+        if (requester.getRole() == Role.ADMIN) {
+            if (hasCategory) {
+                return productRepository.findAllByCategory(category);
+            } else {
+                return productRepository.findAll();
+            }
         }
 
-        if (category == null || category.isBlank()) {
-            return productRepository.findAllByOwnerId(requesterId);
-        } else {
-            return productRepository.findAllByOwnerIdAndCategory(requesterId, category);
+        // 4) User -> voit seulement ses produits
+        if (requester.getRole() == Role.USER) {
+            if (hasCategory) {
+                return productRepository.findAllByOwnerIdAndCategory(requesterId, category);
+            } else {
+                return productRepository.findAllByOwnerId(requesterId);
+            }
         }
+
+        // 5) Autres rôles non autorisés
+        throw new ProductException(HttpStatus.FORBIDDEN, "Forbidden: role not allowed to list products");
     }
 
     /**
      * Récupérer un product : admin can access all, user only own products.
      */
     @Override
-    public Product getProduct(UUID requesterId, UUID productId) {
-        User requester = userRepository.findById(requesterId)
-                .orElseThrow(() -> new ProductException(HttpStatus.UNAUTHORIZED, "User not found"));
-
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new ProductException(HttpStatus.NOT_FOUND, "Product not found"));
-
-        if (requester.getRole() != Role.USER || requester.getRole() != Role.ADMIN) {
-            throw new ProductException(HttpStatus.FORBIDDEN, "Forbidden");
-        }
-
-        if (!product.ownerId().equals(requesterId)) {
-            throw new ProductException(HttpStatus.FORBIDDEN, "Forbidden: you don't own this product");
-        }
-        return product;
+    public Product getProduct(UUID productId) {
+        return productRepository.findById(productId)
+               .orElseThrow(() -> new ProductException(HttpStatus.NOT_FOUND, "Product not found"));
     }
 
     /**

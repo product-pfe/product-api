@@ -33,7 +33,7 @@ public class AdminChangeLog implements CommandLineRunner {
                 address,
                 LocalDate.of(1999,2,10),
                 Gender.MALE,
-                passwordEncoder.encode("1234"),
+                passwordEncoder.encode("Test!123"),
                 Status.ACCEPTED,
                 Role.ADMIN
         );

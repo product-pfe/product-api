@@ -1,5 +1,8 @@
 package com.imad.project.model;
 
 public enum Category {
-    A, B
+    ELECTRONICS,
+    BOOKS,
+    FASHION,
+    OTHER
 }

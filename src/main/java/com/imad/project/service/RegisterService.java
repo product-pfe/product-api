@@ -1,13 +1,14 @@
 package com.imad.project.service;
 
 import com.imad.project.config.IJwtService;
-import com.imad.project.config.JwtService;
+import com.imad.project.exception.ProductException;
 import com.imad.project.model.AuthenticationResponse;
 import com.imad.project.model.Token;
 import com.imad.project.model.User;
 import com.imad.project.repository.ITokenRepository;
 import com.imad.project.repository.IUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,6 +26,9 @@ public class RegisterService implements IRegisterService {
 
     @Override
     public AuthenticationResponse saveUser(User user) {
+        if(userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new ProductException(HttpStatus.CONFLICT, "Email already exists");
+        }
         var savedUser = userRepository.save(user);
         var jwtToken = jwtService.generateToken(user);
         var refreshToken = jwtService.generateRefreshToken(user);

@@ -9,6 +9,8 @@ import com.imad.project.service.ICurrentUserService;
 import com.imad.project.service.IProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
 
     private final IProductService productService;
@@ -27,16 +30,26 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> listProducts(@RequestParam(required = false) String category) {
-        UUID requesterId = currentUserService.getUserId(); // lance 401 si non auth
-        var products = productService.listProducts(requesterId, category);
-        return ResponseEntity.ok(products.stream().map(UserMapper::toDto).toList());
+    public ResponseEntity<List<ProductDto>> listProducts(
+            @RequestParam(required = false) String category,
+            @AuthenticationPrincipal UserDetails principal
+    ) {
+        if (principal == null) {
+            var products = productService.listProducts(null, category);
+            return ResponseEntity.ok(products.stream().map(UserMapper::toDto).toList());
+        }
+        else {
+            UUID requesterId = currentUserService.getUserId(); // lance 401 si non auth
+            var products = productService.listProducts(requesterId, category);
+            return ResponseEntity.ok(products.stream().map(UserMapper::toDto).toList());
+        }
+
+
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProduct(@PathVariable UUID id) {
-        UUID requesterId = currentUserService.getUserId();
-        Product product = productService.getProduct(requesterId, id);
+        Product product = productService.getProduct(id);
         return ResponseEntity.ok(UserMapper.toDto(product));
     }
 

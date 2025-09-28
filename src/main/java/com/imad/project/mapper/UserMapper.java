@@ -74,7 +74,7 @@ public class UserMapper {
     }
 
     public static StatusUpdateRequest toDomain(StatusUpdateRequestDto dto) {
-        return new StatusUpdateRequest(toDomain(dto.userStatusDto()));
+        return new StatusUpdateRequest(toDomain(dto.status()));
     }
 
 

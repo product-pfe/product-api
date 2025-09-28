@@ -10,6 +10,6 @@ public record UserDto(
         String lastName,
         String email,
         Gender gender,
-        Status Status
+        Status status
 ) {
 }
