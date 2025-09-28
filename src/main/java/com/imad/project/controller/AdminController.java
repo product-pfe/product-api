@@ -1,8 +1,8 @@
 package com.imad.project.controller;
 
-import com.imad.project.dto.StatusUpdateRequestDto;
-import com.imad.project.dto.UserDetailDto;
-import com.imad.project.dto.UserDto;
+import com.imad.project.controller.dto.user.StatusUpdateRequestDto;
+import com.imad.project.controller.dto.user.UserDetailDto;
+import com.imad.project.controller.dto.user.UserDto;
 import com.imad.project.mapper.UserMapper;
 import com.imad.project.service.IAdminService;
 import org.springframework.beans.factory.annotation.Autowired;

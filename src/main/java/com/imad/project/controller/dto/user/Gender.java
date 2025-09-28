@@ -1,4 +1,4 @@
-package com.imad.project.controller.domain;
+package com.imad.project.controller.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 

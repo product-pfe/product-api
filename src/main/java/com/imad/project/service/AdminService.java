@@ -1,7 +1,7 @@
 package com.imad.project.service;
 
-import com.imad.project.dto.UserDetailDto;
-import com.imad.project.dto.UserDto;
+import com.imad.project.controller.dto.user.UserDetailDto;
+import com.imad.project.controller.dto.user.UserDto;
 import com.imad.project.mapper.UserMapper;
 import com.imad.project.model.Role;
 import com.imad.project.model.StatusUpdateRequest;

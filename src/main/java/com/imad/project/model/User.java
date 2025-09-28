@@ -1,7 +1,7 @@
 package com.imad.project.model;
 
-import com.imad.project.controller.domain.Address;
-import com.imad.project.controller.domain.Gender;
+import com.imad.project.controller.dto.user.Address;
+import com.imad.project.controller.dto.user.Gender;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,18 +1,15 @@
 package com.imad.project.controller;
 
-import com.imad.project.controller.domain.AuthenticationResponseApiDto;
-import com.imad.project.controller.domain.LoginRequest;
-import com.imad.project.controller.domain.RegisterRequest;
+import com.imad.project.controller.dto.user.AuthenticationResponseApiDto;
+import com.imad.project.controller.dto.user.LoginRequest;
+import com.imad.project.controller.dto.user.RegisterRequest;
 import com.imad.project.mapper.UserMapper;
-import com.imad.project.model.User;
 import com.imad.project.service.ILoginService;
 import com.imad.project.service.IRegisterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/auth")

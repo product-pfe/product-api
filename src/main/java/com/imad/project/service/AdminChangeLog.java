@@ -1,7 +1,7 @@
 package com.imad.project.service;
 
-import com.imad.project.controller.domain.Address;
-import com.imad.project.controller.domain.Gender;
+import com.imad.project.controller.dto.user.Address;
+import com.imad.project.controller.dto.user.Gender;
 import com.imad.project.model.Role;
 import com.imad.project.model.User;
 import com.imad.project.model.Status;

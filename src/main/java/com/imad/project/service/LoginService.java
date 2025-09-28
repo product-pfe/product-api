@@ -1,7 +1,7 @@
 package com.imad.project.service;
 
 import com.imad.project.config.JwtService;
-import com.imad.project.controller.domain.LoginRequest;
+import com.imad.project.controller.dto.user.LoginRequest;
 import com.imad.project.model.AuthenticationResponse;
 import com.imad.project.model.Token;
 import com.imad.project.model.User;
@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class LoginService implements ILoginService{

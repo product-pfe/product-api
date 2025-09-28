@@ -1,7 +1,5 @@
-package com.imad.project.dto;
+package com.imad.project.controller.dto.user;
 
-import com.imad.project.controller.domain.Address;
-import com.imad.project.controller.domain.Gender;
 import com.imad.project.model.Status;
 
 import java.time.LocalDate;
