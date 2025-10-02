@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -27,6 +28,7 @@ public class DataSeeder {
     private static final Random rnd = new Random();
 
     @Bean
+    @Order(2)
     public CommandLineRunner seedProducts(IProductRepository productRepository, IUserRepository userRepository) {
         return args -> {
             final int TARGET = 200; // <-- target changed to 200
